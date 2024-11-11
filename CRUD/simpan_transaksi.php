@@ -1,17 +1,22 @@
 <?php
 include 'koneksi.php';
 
-$tanggal = $_POST['tanggal'];
-$keterangan = $_POST['ket'];
-$debit = $_POST['debit'];
-$kredit = $_POST['kredit'];
-$kategori_id = $_POST['kategori_id'];
-$jenis_transaksi = $_POST['jenis_transaksi'];
+$keterangan = htmlspecialchars ($_POST['ket']);
+if (preg_match('/[^a-zA-Z0-9\s&]/', $keterangan)) {
+    die("MAU NGAPAINN?????SORRYYYYYYY YEEEEEEEEEEEEE!!!!!!!!!!!!!!");
+} else {
+$tanggal = htmlspecialchars ($_POST['tanggal']);
+$keterangan = htmlspecialchars ($_POST['ket']);
+$nominal = htmlspecialchars( $_POST['nominal']);
+$kategori_id = htmlspecialchars ($_POST['kategori_id']);
+$jenis_transaksi = htmlspecialchars ($_POST['jenis_transaksi']);
+}
 
-$nominal = $debit ?: $kredit;
-$jenis_transaksi = $debit ? 'Debit' : 'Kredit';
-
-$sql = "INSERT INTO transaksi (tgl, jenis_transaksi, keterangan, nominal, id_kategori) VALUES (?, ?, ?, ?, ?)";
+if (empty($keterangan) || !is_numeric($nominal)) {
+    die("Data tidak valid! Pastikan keterangan diisi dan nominal berupa angka.");
+}
+$sql = "INSERT INTO transaksi (tgl, jenis_transaksi, keterangan, nominal, id_kategori) 
+        VALUES (?, ?, ?, ?, ?)";
 $params = array($tanggal, $jenis_transaksi, $keterangan, $nominal, $kategori_id);
 $stmt = sqlsrv_query($conn, $sql, $params);
 

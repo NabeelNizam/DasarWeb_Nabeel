@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Data Transaksi</title>
+    <link rel="stylesheet" href="style.css">
     <script>
-        // Fungsi untuk memuat data transaksi dari PHP
         function loadData() {
             fetch("get_data_transaksi.php")
                 .then(response => response.text())
@@ -12,8 +12,7 @@
                     document.getElementById("dataTable").innerHTML = data;
                 });
         }
-
-        // Fungsi untuk mengirim data form ke PHP tanpa reload halaman
+    
         function submitForm(event) {
             event.preventDefault();
             const formData = new FormData(document.getElementById("transaksiForm"));
@@ -36,7 +35,7 @@
 </head>
 <body>
 
-<h2>Data Transaksi</h2>
+<h2>Data Transaksi</h2> 
 <table border="1">
     <thead>
         <tr>
@@ -50,7 +49,7 @@
         </tr>
     </thead>
     <tbody id="dataTable">
-        <!-- Data transaksi akan dimuat di sini -->
+        <!-- Data transaksi -->
     </tbody>
 </table>
 
@@ -67,7 +66,6 @@
     </label><br>
     <label>Kategori: 
         <select name="kategori_id" required>
-            <!-- Data kategori akan dimuat melalui PHP -->
             <?php 
             include 'get_kategori.php'; 
             ?>

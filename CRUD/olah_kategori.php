@@ -3,7 +3,9 @@ include 'koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nama_kategori = $_POST['nama_kategori'];
-    
+    if (empty($nama_kategori) || preg_match('/[^a-zA-Z0-9\s&]/', $nama_kategori)) {
+        die("MAU NGAPAINN?????SORRYYYYYYY YEEEEEEEEEEEEE!!!!!!!!!!!!!!");
+    }
     $sql = "INSERT INTO kategori (nama_kategori) VALUES (?)";
     $params = array($nama_kategori);
     $stmt = sqlsrv_query($conn, $sql, $params);
@@ -11,18 +13,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt === false) {
         die(print_r(sqlsrv_errors(), true));
     } else {
-        // Jika berhasil, redirect ke index.html
-        header("Location: index.html"); // Pastikan index.html ada di direktori yang sama
-        exit(); // Hentikan script setelah redirect
+        sqlsrv_close($conn);
+        header("Location: index.php");
+        exit(); 
     }
 
-    sqlsrv_close($conn);
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="style-olah_kategori.css">
     <meta charset="UTF-8">
     <title>Tambah Kategori</title>
 </head>
